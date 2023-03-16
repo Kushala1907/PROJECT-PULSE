@@ -25,17 +25,17 @@ after assigning role by super admin to emplyee if emplyee role is one of (admin 
 
 Create .env file and add the following details to your .env file
 
-PORT=3030
+PORT=assign port
 
 DB_NAME=project
 
 DB_USER=root
 
-SECRET_KEY=DTHGHDTFGHFHGGHKFDSAWEDGDJTF
+SECRET_KEY=assign some key
 
 DB_PASSWORD=password
 
-EMAIL_USER=kushala
+EMAIL_USER=add user
 
 EMAIL_PASS=password
 

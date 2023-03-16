@@ -33,11 +33,11 @@ DB_USER=root
 
 SECRET_KEY=DTHGHDTFGHFHGGHKFDSAWEDGDJTF
 
-DB_PASSWORD=Naredla@19
+DB_PASSWORD=password
 
 EMAIL_USER=kushala
 
-EMAIL_PASS=pass
+EMAIL_PASS=password
 
 ## Overview
 ### Roles in the project

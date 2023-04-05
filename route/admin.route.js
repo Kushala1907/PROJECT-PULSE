@@ -14,7 +14,7 @@ adminApp.use(exp.json())
 
 adminApp.post('/create-project/:email',verifyToken,createProject);
 adminApp.delete('/delete-project/admin-user/:email/project-id/:project_id',verifyToken,deleteProject);
-adminApp.put('/update-project/admin-user/:email/project-id/:project_id',verifyToken,updateProjectByAdmin);
+adminApp.put('/update-project/admin-user/:email',verifyToken,updateProjectByAdmin);
 adminApp.get('/project-dashboard/:email',verifyToken,projectDashboard);
 adminApp.get('/project_details/project_id/:project_id/:email',verifyToken,projectDetails);
 adminApp.get('/project_updates/project_id/:project_id/:email',verifyToken,projectUpdates);

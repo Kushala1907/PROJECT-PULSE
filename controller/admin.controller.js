@@ -46,7 +46,8 @@ const createProject=expressAsyncHandler(async(req,res)=>{
   
   //only gdo can create the new-Project
   if(possibleToCreateProject){
-    await Project.create(req.body)
+    let project=await Project.create(req.body)
+    res.status(201).send({payload:project})
   }
   //other than gdo
   else{
@@ -57,7 +58,7 @@ const createProject=expressAsyncHandler(async(req,res)=>{
 //delete-project by admin users
 
 const deleteProject=expressAsyncHandler(async(req,res)=>{
-  let {projectId}=req.params.project_id;
+  let projectId=req.params.project_id;
   let email=req.params.email;
   let user = await User.findOne({
     where: { email: email},
@@ -65,7 +66,7 @@ const deleteProject=expressAsyncHandler(async(req,res)=>{
   //only admin can delete project
   if(user.role=="Admin_Users"){
     await Project.destroy({where:{project_id:projectId}})
-    res.status(200).send({message:"project deleted"})
+    res.status(201).send({message:"project deleted"})
   }
   else{
     res.status(401).send({message:'You are not allowed to delete project'})
@@ -77,14 +78,14 @@ const deleteProject=expressAsyncHandler(async(req,res)=>{
 //update project by admin users
 
 const updateProjectByAdmin=expressAsyncHandler(async(req,res)=>{
-  let projectId=req.params.project_id;
+  let projectId=req.body.project_id;
   let email=req.params.email;
   let user = await User.findOne({
     where: { email: email},
   });
   //only admin can update project
   if(user.role=="Admin_Users"){
-    await Project.update({project_name:req.body.project_name},{where:{project_id:projectId}})
+    await Project.update({status:req.body.status},{where:{project_name:req.body.project_name}})
     res.status(200).send({message:"project updated"})
     
   }
@@ -103,7 +104,7 @@ const projectDashboard=expressAsyncHandler(async(req,res)=>{
   });
   //if user is admin user he/she can access all projects
   if(user.role=="Admin_Users"){
-      let projects=await Project.findAll({attributes:{exclude:['project_id','domain','team_size','project_type','GDO']}});
+      let projects=await Project.findAll({attributes:{exclude:['domain','team_size','project_type','GDO']}});
       res.status(200).send({projects})
   }
   //gdo can access projects under him/her
@@ -141,13 +142,21 @@ const projectDetails=expressAsyncHandler(async(req,res)=>{
         },
       ],
     });
-    res.status(200).send({projectRecord})
+    //console.log(projectRecord)
+    //count team size
+    let [teamSize]=await sequelize.query("select count(team_id) as teamsize from team where billing_status=? and project_id=?",{replacements:["billed",projectId]})
+    
+    
+    
+    res.status(201).send({payload:projectRecord,teamsize:teamSize})
   }
   else{
     res.status(401).send({message:"You are not allowed to access"})
   }
   
 });
+
+
 
 //project updates
 const projectUpdates=expressAsyncHandler(async(req,res)=>{

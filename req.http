@@ -33,8 +33,8 @@ POST http://localhost:3030/user-api/login
 Content-Type: application/json
 
 {
-    "email":"pramod@westagilelabs.com",
-    "password":"pramod"
+    "email":"naveen@westagilelabs.com",
+    "password":"naveena"
 }
 
 
@@ -43,17 +43,17 @@ POST http://localhost:3030/user-api/forgot-password
 Content-Type: application/json
 
 {
-    "email":"dayyubiddika095@gmail.com"
+    "email":"naveen@westagilelabs.com"
 
 }
 
 ### RESET PASSWORD
-POST http://localhost:3030/user-api/reset-password/email/dayyubiddika095@gmail.com
+POST http://localhost:3030/user-api/reset-password/email/naveen@westagilelabs.com
 Content-Type: application/json
 
 {
-    "otp":293062,
-    "password":"kushala19"
+    "otp":306249,
+    "password":"naveen"
 }
 
 
@@ -78,18 +78,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByYW1vZ
 }
 
 ### DELETE PROJECT BASED ON PROJECT_ID BY ADMIN_USERS
-DELETE http://localhost:3030/admin-api/delete-project/admin-user/varun@westagilelabs.com/project-id/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imt1c2hhbGFAd2VzdGFnaWxlbGFicy5jb20iLCJpYXQiOjE2Nzg2ODk2NjEsImV4cCI6MTY3ODc3NjA2MX0.q9Cpf-_DQgWkkuke6Ck7z6XWxd5JVT_BYRtlQi1SqXE
+DELETE http://localhost:3030/admin-api/delete-project/admin-user/pramod@westagilelabs.com/project-id/21
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByYW1vZEB3ZXN0YWdpbGVsYWJzLmNvbSIsImlhdCI6MTY4MDA3ODY0NiwiZXhwIjoxNjgwMTY1MDQ2fQ.ie2J4_UptgqqqxrapGXcmZNTuVSjA9StRT3Qp2ADG40
 
 
 ###UPDATE PROJECT BY ADMIN
-PUT http://localhost:3030/admin-api/update-project/admin-user/varun@westagilelabs.com/project-id/3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhcnVuQHdlc3RhZ2lsZWxhYnMuY29tIiwiaWF0IjoxNjc4Nzk0MDk3LCJleHAiOjE2Nzg4ODA0OTd9.cStOKJgG92mCU9FgntmbmAiyhmjF4cgAXkxsuMMjPkk
+PUT http://localhost:3030/admin-api/update-project/admin-user/pramod@westagilelabs.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByYW1vZEB3ZXN0YWdpbGVsYWJzLmNvbSIsImlhdCI6MTY4MDA3MjU1NywiZXhwIjoxNjgwMTU4OTU3fQ.vsVZ5xmBq_RcyfGQfZC5Y0F3XlWJtF1eKZmpEhaetk8
 Content-Type: application/json
 
 {
     "project_id":3,
-    "project_name":"test-3"
+    "project_name":"test3",
+    
 }
 
 
@@ -114,18 +115,22 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhc2hpQ
 
 ###UPDATING PROJECT UPDATES
 PUT http://localhost:3030/projectmanager-api/update-updates/project-manager/sashi@westagilelabs.com/project-id/2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhc2hpQHdlc3RhZ2lsZWxhYnMuY29tIiwiaWF0IjoxNjc4Nzg1OTExLCJleHAiOjE2Nzg4NzIzMTF9.LPsZj-4k8GcRtIXbsd6gVjclyEYTkruLRRuWiF1hAx0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhc2hpQHdlc3RhZ2lsZWxhYnMuY29tIiwiaWF0IjoxNjgwNTIwNTIxLCJleHAiOjE2ODA2MDY5MjF9.DcPNt7FpKC7GroAupJdp2DqH7XuxXpSDgeMv3nDjcqQ
 Content-Type: application/json
 
 {
     "update_id":1,
-    "update_status":"Green"
+    "update_status":"Green",
+    "schedule_status":"Amber",
+    "resource_status":"Red",
+    "quality_status":"red",
+    "waiting_for_clientInput":true
 }
 
 
 ###DELETE PROJECT UPDATE BY PROJECT-MANAGER
 DELETE http://localhost:3030/projectmanager-api/detete-project-update/project-manager/sashi@westagilelabs.com/update-id/2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhc2hpQHdlc3RhZ2lsZWxhYnMuY29tIiwiaWF0IjoxNjc4Nzg1OTExLCJleHAiOjE2Nzg4NzIzMTF9.LPsZj-4k8GcRtIXbsd6gVjclyEYTkruLRRuWiF1hAx0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhc2hpQHdlc3RhZ2lsZWxhYnMuY29tIiwiaWF0IjoxNjgwMTA3OTE4LCJleHAiOjE2ODAxOTQzMTh9.p_tDPIVqOoLLKKxxtQDG1sLIfD7e5Wp48vpiw2Uvt_c
 
 
 ### EMPLOYEE RAISE CONCERN
@@ -243,8 +248,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhcnVuQ
 
 
 ### GIVES COMPLETE DETAILS OF A PROJECT FOR ADMIN
-GET http://localhost:3030/admin-api/project_details/project_id/16/gdotest@westagilelabs.com
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdkb3Rlc3RAd2VzdGFnaWxlbGFicy5jb20iLCJpYXQiOjE2Nzg3OTU5MDgsImV4cCI6MTY3ODg4MjMwOH0.kFKkLAmnBZAB8PSyAOr0TC0zAOfw4bxaMm-r5StForM
+GET http://localhost:3030/admin-api/project_details/project_id/16/pramod@westagilelabs.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByYW1vZEB3ZXN0YWdpbGVsYWJzLmNvbSIsImlhdCI6MTY4MDA3ODY0NiwiZXhwIjoxNjgwMTY1MDQ2fQ.ie2J4_UptgqqqxrapGXcmZNTuVSjA9StRT3Qp2ADG40
 
 ### GIVES COMPLETE DETAILS OF A PROJECT UNDER PROVIDED GDO
 GET http://localhost:3030/gdo-api/project_details/project_id/16/gdotest@westagilelabs.com
@@ -260,8 +265,8 @@ GET http://localhost:3030/user-api/team-composition/team_id/1/vamsi@westagilelab
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbXNpQHdlc3RhZ2lsZWxhYnMuY29tIiwiaWF0IjoxNjc4NzY5ODIzLCJleHAiOjE2Nzg4NTYyMjN9.rn8sQoeJ0kh-dUmDKCTAZObS5qzWbHMLG2pwdd-jRxE
 
 ### GET ALL CONCERNS
-GET http://localhost:3030/user-api/all-concerns/vamsi@westagilelabs.com
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imt1c2hhbGFAd2VzdGFnaWxlbGFicy5jb20iLCJpYXQiOjE2Nzg2ODk2NjEsImV4cCI6MTY3ODc3NjA2MX0.q9Cpf-_DQgWkkuke6Ck7z6XWxd5JVT_BYRtlQi1SqXE
+GET http://localhost:3030/user-api/all-concerns/sashi@westagilelabs.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhc2hpQHdlc3RhZ2lsZWxhYnMuY29tIiwiaWF0IjoxNjgwNTgzMzEwLCJleHAiOjE2ODA2Njk3MTB9.KfbA3DHDHMLOKQ_4kZE1ZN1mJXaQPxAhrl2xFEgXExo
 
 ### GET ALL UPDATES
 GET http://localhost:3030/user-api/all-updates/vamsi@westagilelabs.com

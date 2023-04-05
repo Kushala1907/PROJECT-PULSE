@@ -32,7 +32,7 @@ Project.Concern=Project.hasMany(Concern,{foreignKey:{name:"project_id"}});
 Project.Update=Project.hasMany(Update,{foreignKey:{name:"project_id"}});
 Client.hasMany(Project,{foreignKey:{name:"client"}})
 
-//new-update
+// create new-update
 const createUpdate=expressAsyncHandler(async(req,res)=>{
       
       let email=req.params.email
@@ -43,7 +43,8 @@ const createUpdate=expressAsyncHandler(async(req,res)=>{
       
       //only gdo can create the new-Update
       if(possibleToCreateProject){
-        await Update.create(req.body)
+        let update=await Update.create(req.body);
+        res.status(201).send({payload:update})
       }
       else{
         res.send({message:"only Project Manager has access to create new update"})
@@ -62,8 +63,10 @@ const updateProjectUpdateByManager=expressAsyncHandler(async(req,res)=>{
   });
   //only Project manager can update project-update
   if(user.role=="Project_Manager"){
-    await Update.update({update_status:req.body.update_status},{where:{[Op.and]:[{update_id:updateId},{project_id:projectId}]}})
-    res.send({message:"project-update updated"})
+    let update=await Update.update({update_status:req.body.update_status,schedule_status:req.body.schedule_status,
+      resource_status:req.body.resource_status,quality_status:req.body.quality_status,waiting_for_clientInput:req.body.waiting_for_clientInput
+    },{where:{[Op.and]:[{update_id:updateId},{project_id:projectId}]}})
+    res.status(201).send({message:"project-update updated"})
   }
   else{
     res.send({message:'You are not allowed to update project-update'})

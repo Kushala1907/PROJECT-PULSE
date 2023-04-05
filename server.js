@@ -2,8 +2,18 @@
 const exp=require("express")
 const app=exp()
 
+
+//import helmet
+const helmet=require('helmet')
+//add helmet as middleware
+app.use(helmet())
+
 //configure dotenv
 require("dotenv").config()
+
+//connecting build of react app with nodejs web server
+const path=require("path")
+app.use(exp.static(path.join(__dirname,'../build')))
 
 //import sequelize
 const sequelize=require('./DB/db.config')
@@ -39,6 +49,11 @@ app.use("/superadmin-api",superadminApp)
 //create gdo route-path
 const projectmanagerApp=require("./route/projectmanager.route")
 app.use("/projectmanager-api",projectmanagerApp)
+
+//page refresh
+app.use((req,res)=>{
+    res.sendFile(path.join(__dirname,"../build/index.html"))
+})
 
 //invalid path
 app.use('*',(req,res,next)=>{

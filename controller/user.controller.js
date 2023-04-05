@@ -24,10 +24,10 @@ require("dotenv").config();
 
 //create connection to smtp
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: process.env.EMAIL_SERVICE_PROVIDER,
   auth: {
-    user: "dayyubiddika095@gmail.com",
-    pass: "lscsslsurjfqrtab" // app password
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD // app password
   }
 })
 
@@ -71,8 +71,8 @@ const registerUser=expressAsyncHandler(async(req,res)=>{
     }
     //if email belongs to westagilelabs
     else{
-      await Employee.create(req.body)
-      res.status(201).send({message:"Registration successfull..."})
+      let user=await Employee.create(req.body)
+      res.status(201).send({message:"Registration successfull...",payload:user})
     }
     
 });
@@ -103,15 +103,14 @@ const loginUser=expressAsyncHandler(async(req,res)=>{
           expiresIn: "1d",
         });
         if(user.role=="GDO"){
-          res.status(202).send({message:`→Portfolio Dashboard →Project Concern →Raise a Resourcing Request`,token: signedToken})
+          res.status(202).send({message:`success`,token: signedToken,payload:user})
         }
         if(user.role=="Admin_Users"){
-          res.status(202).send({message:`→Portfolio Dashboard 
-                            →Project Concern`
-                            ,token: signedToken})
+          res.status(202).send({message:`success`
+                            ,token: signedToken,payload:user})
         }
         else{
-          res.status(202).send({token: signedToken})
+          res.status(202).send({message:'success',token: signedToken,payload:user})
         }
       }
       //If password is incorrect/not matching
@@ -130,13 +129,14 @@ const forgotPassword=expressAsyncHandler(async(req,res)=>{
   otps[req.body.email]=otp
   //draft email
   let mailOptions = {
-      from: 'naredlakushala@gmail.com',
+      from: process.env.EMAIL,
       to: req.body.email,
       subject: 'OTP to reset password',
       text: `Hello ,
        We received a request to reset your password .Enter the following OTP to reset your password :
         `+otp
     }
+    console.log(otp)
   //send email
     transporter.sendMail(mailOptions, function(error, info){
       if (error) {
@@ -149,8 +149,8 @@ const forgotPassword=expressAsyncHandler(async(req,res)=>{
   setTimeout(()=>{
       //delete OTP from object after 10 minutes
       delete otps[req.body.email]
-  },600000)
-  res.status(200).send({message:"OTP to reset your password is sent to your email"})
+  },6000000)
+  res.status(200).send({message:"OTP to reset your password is sent to your email",payload:req.body.email})
   
 });
 
@@ -159,13 +159,14 @@ const resetPassword=expressAsyncHandler(async(req,res)=>{
   //otp matches
   if(req.body.otp==otps[req.params.email]){
       console.log("password verififed");
+      //let hashedPassword=await bcryptjs.hash(req.body.password,6)
       await User.update({password:req.body.password},{where:{
           email:req.params.email
       }})
-      res.status(205).send({message:"Password reset sucessfully"})
+      res.status(200).send({message:"Password reset sucessfully"})
   }
   else{
-      res.status(203).send({message:"Invalid OTP"})
+      res.send({message:"Invalid OTP"})
   }
 });
 
@@ -270,9 +271,9 @@ const getAllConcerns=expressAsyncHandler(async(req,res)=>{
     where: { email: email},
   });
   
-  if(user.role=="GDO" || user.role=="Project_Manager" || user.role=="HR_Manager" || user.role=="Super_Admin" || user.role=="Admin_Users"){
+  if(user.role=="Project_Manager" || user.role=="GDO"  || user.role=="Admin_Users"){
     let concerns=await Concern.findAll();
-    res.status(200).send({payload:concerns})
+    res.status(201).send({payload:concerns})
     
   }
   else{
@@ -289,9 +290,9 @@ const getAllUpdates=expressAsyncHandler(async(req,res)=>{
     where: { email: email},
   });
   
-  if(user.role=="GDO" || user.role=="Project_Manager" || user.role=="HR_Manager" || user.role=="Super_Admin" || user.role=="Admin_Users"){
+  if(user.role=="Project_Manager" || user.role=="Admin_Users"){
     let updates=await Update.findAll();
-    res.status(200).send({payload:updates})
+    res.status(201).send({payload:updates})
     
   }
   else{
@@ -328,3 +329,4 @@ module.exports={
       assignProject, getAllConcerns, getAllUpdates,
       getAllTeams, raiseConcernTriggerEmail
 }
+    

@@ -66,12 +66,12 @@ const projectDashboard=expressAsyncHandler(async(req,res)=>{
   //if user is admin user he/she can access all projects
   if(user.role=="Admin_Users"){
       let projects=await Project.findAll({attributes:{exclude:['project_id','domain','team_size','project_type','GDO']}});
-      res.status(200).send({projects})
+      res.status(200).send({payload:projects,user:user})
   }
   //gdo can access projects under him/her
   else{
     let projects=await Project.findAll({where:{GDO:req.params.email}},{attributes:{exclude:['project_id','domain','team_size','project_type','GDO']}});
-    res.status(200).send({projects})
+    res.status(200).send({payload:projects,user:user})
   }
 });
 
@@ -105,7 +105,8 @@ const projectDetails=expressAsyncHandler(async(req,res)=>{
         },
       ],
     });
-    res.status(200).send({projectRecord})
+    let [teamSize]=await sequelize.query("select count(team_id) as teamsize from team where billing_status=? and project_id=?",{replacements:["billed",projectId]})
+    res.status(201).send({payload:projectRecord,teamsize:teamSize})
   }
   else{
     res.status(401).send({message:"You are not allowed to access"})
@@ -123,7 +124,8 @@ const raiseResource=expressAsyncHandler(async(req,res)=>{
   });
   //only wal employee raise resource
   if(user.role=="GDO"){
-    await Resource.create(req.body)
+    let resource=await Resource.create(req.body)
+    res.status(201).send({payload:resource,message:"Rasied resource successfully"})
   }
   else{
     res.status(401).send({message:"only GDO can raise resource"})
